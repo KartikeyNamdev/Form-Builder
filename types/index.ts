@@ -1,5 +1,7 @@
 // types/index.ts
 
+import { Prisma } from "@prisma/client";
+
 export interface FormField {
   id: string;
   type: "text" | "email" | "textarea" | "checkbox" | "dropdown" | "file";
@@ -13,6 +15,13 @@ export interface Submission {
   formId: string;
   answers: Record<string, string>; // e.g., { fieldId: 'answer' }
 }
+export type JsonValue =
+  | string
+  | number
+  | boolean
+  | null
+  | JsonValue[]
+  | { [key: string]: JsonValue };
 
 export interface FormTheme {
   colors: {
@@ -26,7 +35,7 @@ export interface FormTheme {
 }
 
 // Helper type for what we save to local storage
-type StoredState = Pick<BuilderState, "fields" | "theme">;
+type StoredState = Pick<BuilderState, "fields" | "theme" | "title">;
 
 export interface BuilderState {
   // STATE

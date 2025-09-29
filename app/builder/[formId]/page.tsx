@@ -1,46 +1,35 @@
 // app/builder/[formId]/page.tsx
-"use client";
 
-import { Canvas } from "@/components/builder/Canvas";
-import { ElementsPanel } from "@/components/builder/ElementsPanel";
-import { InspectorPanel } from "@/components/builder/InspectorPanel";
-import { BuilderHeader } from "@/components/builder/BuilderHeader";
-import useBuilderStore from "@/store/builderStore";
-import { use, useEffect } from "react";
-import { loadFormFromLocalStorage } from "@/lib/Storage";
+import { PrismaClient } from "@prisma/client";
+import { Builder } from "@/components/builder/Builder";
+import { getCurrentUser } from "@/lib/Session";
 
-// import { Panel } from "@/components/ui/Panel";
+const prisma = new PrismaClient();
 
-export default function BuilderPage({
+async function getForm(formId: string) {
+  const user = await getCurrentUser();
+  if (!user) return null;
+
+  return await prisma.form.findUnique({
+    where: {
+      id: formId,
+      userId: user.id,
+    },
+  });
+}
+
+// 1. The params type is a simple object
+export default async function BuilderPage({
   params,
 }: {
-  params: Promise<{ formId: string }>;
+  params: { formId: string };
 }) {
-  const { initState, setFormId } = useBuilderStore();
-  const { formId } = use(params);
+  // 2. Access params.formId directly
+  const form = await getForm(params.formId);
 
-  useEffect(() => {
-    const savedState = loadFormFromLocalStorage(formId);
-    if (savedState) {
-      initState(savedState);
-    }
-    setFormId(formId);
-  }, [formId, initState, setFormId]);
+  if (!form) {
+    return <div>Form not found or you do not have permission to view it.</div>;
+  }
 
-  return (
-    <main className="p-4 sm:p-6 lg:p-8">
-      <BuilderHeader />
-      <div className="mt-8 grid grid-cols-1 lg:grid-cols-12 gap-8">
-        <div className="lg:col-span-3">
-          <ElementsPanel />
-        </div>
-        <div className="lg:col-span-6">
-          <Canvas />
-        </div>
-        <div className="lg:col-span-3">
-          <InspectorPanel />
-        </div>
-      </div>
-    </main>
-  );
+  return <Builder form={form} />;
 }

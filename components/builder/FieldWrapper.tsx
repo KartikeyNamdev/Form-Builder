@@ -1,5 +1,6 @@
 // components/builder/FieldWrapper.tsx
 "use client";
+import { SyntheticListenerMap } from "@dnd-kit/core/dist/hooks/utilities";
 import { GripVertical } from "lucide-react";
 import React from "react";
 
@@ -7,7 +8,7 @@ import React from "react";
 interface FieldWrapperProps {
   label: string;
   children: React.ReactNode;
-  dragHandleListeners?: any;
+  dragHandleListeners?: SyntheticListenerMap;
 }
 
 export function FieldWrapper({

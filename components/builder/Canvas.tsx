@@ -50,22 +50,24 @@ function EditView() {
 
   return (
     <DndContext collisionDetection={closestCenter} onDragEnd={handleDragEnd}>
-      <div className="min-h-[24rem] p-4 space-y-4">
+      <div className="min-h-[32rem] p-8">
         <SortableContext
           items={fields.map((f) => f.id)}
           strategy={verticalListSortingStrategy}
         >
-          {fields.length > 0 ? (
-            fields.map((field) => (
-              <SortableField key={field.id} field={field}>
-                {renderField(field, false)}
-              </SortableField>
-            ))
-          ) : (
-            <div className="flex items-center justify-center h-full text-gray-400">
-              <p>Add your first element from the left panel.</p>
-            </div>
-          )}
+          <div className="space-y-6">
+            {fields.length > 0 ? (
+              fields.map((field) => (
+                <SortableField key={field.id} field={field}>
+                  {renderField(field, false)}
+                </SortableField>
+              ))
+            ) : (
+              <div className="flex items-center justify-center h-64 text-gray-400 border-2 border-dashed border-gray-600 rounded-lg">
+                <p>Add your first element from the left panel.</p>
+              </div>
+            )}
+          </div>
         </SortableContext>
       </div>
     </DndContext>
@@ -79,20 +81,22 @@ function PreviewView() {
   return (
     <form
       style={{ borderColor: primary, backgroundColor: background, color: text }}
-      className="p-4 space-y-6"
+      className="p-8 space-y-8 rounded-lg"
     >
       {fields.map((field) => (
         <FieldWrapper key={field.id} label={field.label}>
           {renderField(field, true)}
         </FieldWrapper>
       ))}
-      <Button
-        className={`border`}
-        style={{ borderColor: primary }}
-        type="submit"
-      >
-        Submit
-      </Button>
+      <div className="pt-6 flex justify-center">
+        <Button
+          className="border-2 px-8 py-3 text-lg"
+          style={{ borderColor: primary, backgroundColor: primary }}
+          type="submit"
+        >
+          Submit
+        </Button>
+      </div>
     </form>
   );
 }
@@ -106,25 +110,26 @@ export function Canvas() {
   } as React.CSSProperties;
 
   return (
-    <div style={themeStyles}>
-      <Panel>
-        {mode === "edit" ? (
-          <input
-            type="text"
-            placeholder={title}
-            value={title}
-            onChange={(e) => updateTitle(e.target.value)}
-            className="text-2xl bg-white/5 border-white/10 rounded-md p-2"
-          />
-        ) : (
-          <h2
-            className="text-2xl font-bold mb-4"
-            style={{ color: "var(--text-color)" }}
-          >
-            {title}
-          </h2>
-        )}
-        {/* REMOVED the primaryColor prop from the PreviewView call */}
+    <div style={themeStyles} className="flex-1 overflow-auto">
+      <Panel className="m-6">
+        <div className="mb-8">
+          {mode === "edit" ? (
+            <input
+              type="text"
+              placeholder={title}
+              value={title}
+              onChange={(e) => updateTitle(e.target.value)}
+              className="text-3xl font-bold bg-white/5 border-white/10 rounded-md p-3 w-full focus:outline-none focus:ring-2 focus:ring-primary"
+            />
+          ) : (
+            <h2
+              className="text-3xl font-bold text-center"
+              style={{ color: "var(--text-color)" }}
+            >
+              {title}
+            </h2>
+          )}
+        </div>
         {mode === "edit" ? <EditView /> : <PreviewView />}
       </Panel>
     </div>

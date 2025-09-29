@@ -1,14 +1,13 @@
 // store/builderStore.ts
 import { create } from "zustand";
 import { BuilderState } from "@/types";
-import { saveFormToLocalStorage } from "@/lib/Storage";
+import { saveForm } from "@/lib/Storage";
 
 // Define the initial state of our store
 const useBuilderStore = create<BuilderState>((set) => ({
   // STATE
   fields: [], // The form starts with no fields
   theme: {
-    // Default theme settings
     colors: {
       primary: "#10b981",
       background: "#0a0a0a",
@@ -87,7 +86,7 @@ useBuilderStore.subscribe((state) => {
       theme: state.theme,
       title: state.title,
     };
-    saveFormToLocalStorage(state.formId, stateToSave);
+    saveForm(state.formId, stateToSave);
   }
 });
 

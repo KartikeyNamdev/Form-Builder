@@ -1,5 +1,4 @@
-// components/ui/ClientLayout.tsx
-"use client"; // This must be a client component to use hooks
+"use client";
 
 import { usePathname } from "next/navigation";
 import { Header } from "./Header";
@@ -7,19 +6,23 @@ import { Footer } from "./Footer";
 
 export function ClientLayout({ children }: { children: React.ReactNode }) {
   const pathname = usePathname();
-  const isBuilderPage = pathname.startsWith("/builder");
+  // Check if the current page is part of the builder or dashboard
+  const isAppPage =
+    pathname.startsWith("/builder") || pathname.startsWith("/dashboard");
 
-  // If we are on the builder page, just show the content without Header/Footer
-  if (isBuilderPage) {
+  // If we are on an app page, just show the content
+  if (isAppPage) {
     return <>{children}</>;
   }
 
-  // Otherwise, show the full public layout with Header and Footer
+  // Otherwise, for public pages, show the full layout
   return (
     <>
-      <Header />
-      <main>{children}</main>
-      <Footer />
+      <div className="flex flex-col min-h-screen">
+        <Header />
+        <main className="flex-grow">{children}</main>
+        <Footer />
+      </div>
     </>
   );
 }

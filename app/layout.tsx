@@ -3,6 +3,7 @@ import { Inter } from "next/font/google";
 import "./globals.css";
 import Image from "next/image";
 import { ClientLayout } from "@/components/ui/ClientLayout";
+import { redirect } from "next/navigation";
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -14,7 +15,6 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body className={`${inter.className} bg-dark-bg text-gray-200`}>
-        {/* Your background image div can stay here if you want it on all pages */}
         <div className="fixed left-0 top-0 -z-10 h-full w-full">
           <Image
             width={500}

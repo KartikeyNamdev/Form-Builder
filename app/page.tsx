@@ -1,7 +1,9 @@
 // app/page.tsx
+"use client";
 import { Button } from "@/components/ui/Button";
 import { FeatureCard } from "@/components/ui/FeatureCard";
 import { Brush, Code, Rocket } from "lucide-react"; // Example icons
+import { redirect } from "next/navigation";
 
 export default function LandingPage() {
   return (
@@ -19,6 +21,9 @@ export default function LandingPage() {
           <Button
             variant="primary"
             className="px-8 py-4 text-lg border-2 hover:border-[#10b981]"
+            onClick={() => {
+              redirect("/signup");
+            }}
           >
             Start Building for Free
           </Button>

@@ -1,6 +1,7 @@
 // components/ui/Header.tsx
 import Link from "next/link";
 import { Button } from "./Button";
+import { redirect } from "next/navigation";
 
 export function Header() {
   const navLinks = ["Features", "Pricing", "Themes", "Contact"];
@@ -22,8 +23,22 @@ export function Header() {
         ))}
       </nav>
       <div className="flex items-center gap-4">
-        <Button variant="secondary">Log In</Button>
-        <Button variant="primary">Sign Up</Button>
+        <Button
+          variant="secondary"
+          onClick={() => {
+            redirect("/login");
+          }}
+        >
+          Log In
+        </Button>
+        <Button
+          onClick={() => {
+            redirect("/signup");
+          }}
+          variant="primary"
+        >
+          Sign Up
+        </Button>
       </div>
     </header>
   );
