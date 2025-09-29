@@ -24,6 +24,11 @@ export function FieldSettings() {
       </Panel>
     );
   }
+  const handleOptionChange = (index: number, value: string) => {
+    const newOptions = [...(selectedField?.options || [])];
+    newOptions[index] = value;
+    updateField(selectedField!.id, { options: newOptions });
+  };
 
   // If a field IS selected, show the inputs to edit its properties
   return (
@@ -70,6 +75,25 @@ export function FieldSettings() {
             className="h-5 w-5 rounded accent-brand-green"
           />
         </div>
+        {/* Special section for Dropdown options */}
+        {selectedField?.type === "dropdown" && (
+          <div>
+            <label className="block text-sm font-medium text-gray-300 mb-2">
+              Options
+            </label>
+            <div className="space-y-2">
+              {selectedField.options?.map((option, index) => (
+                <input
+                  key={index}
+                  type="text"
+                  value={option}
+                  onChange={(e) => handleOptionChange(index, e.target.value)}
+                  className="w-full bg-white/5 border-white/10 rounded-md p-2"
+                />
+              ))}
+            </div>
+          </div>
+        )}
       </div>
     </Panel>
   );

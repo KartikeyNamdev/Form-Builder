@@ -1,6 +1,7 @@
 // store/builderStore.ts
 import { create } from "zustand";
 import { BuilderState } from "@/types";
+import { saveFormToLocalStorage } from "@/lib/Storage";
 
 // Define the initial state of our store
 const useBuilderStore = create<BuilderState>((set) => ({
@@ -12,16 +13,22 @@ const useBuilderStore = create<BuilderState>((set) => ({
       primary: "#10b981",
       background: "#0a0a0a",
       text: "#f3f4f6",
-      panelBg: "rgba(23, 23, 23, 0.5)",
     },
     fonts: {
       body: "Inter, sans-serif",
     },
   },
   mode: "edit", // Default to edit mode
-
   // NEW STATE
   selectedFieldId: null, // Nothing is selected initially
+  formId: null, // Add formId to your state
+  title: "Add Title", // Add the title property
+  // ...
+  updateTitle: (title) => set({ title }), // Add the update action
+
+  setFormId: (id) => set({ formId: id }),
+  // This is where you would load initial state
+  initState: (initialState) => set(initialState),
 
   // ACTIONS (functions to modify the state)
   addField: (field) =>
@@ -59,6 +66,29 @@ const useBuilderStore = create<BuilderState>((set) => ({
         },
       },
     })),
+  // NEW ACTION - Update font
+  updateThemeFont: (key: string, value: string) =>
+    set((state) => ({
+      theme: {
+        ...state.theme,
+        fonts: {
+          ...state.theme.fonts,
+          [key]: value,
+        },
+      },
+    })),
 }));
+
+// Subscribe to changes and save to local storage
+useBuilderStore.subscribe((state) => {
+  if (state.formId) {
+    const stateToSave = {
+      fields: state.fields,
+      theme: state.theme,
+      title: state.title,
+    };
+    saveFormToLocalStorage(state.formId, stateToSave);
+  }
+});
 
 export default useBuilderStore;

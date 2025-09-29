@@ -10,6 +10,7 @@ export function TextInput({ field, isPreview = false }: TextInputProps) {
     <input
       type="text"
       placeholder={field.placeholder}
+      name={field.id} // <-- ADD THIS LINE
       className={
         `w-full bg-white/5 border-white/10 rounded-md p-2 
         ${isPreview ? "" : "pointer-events-none"}` // Conditionally apply the class

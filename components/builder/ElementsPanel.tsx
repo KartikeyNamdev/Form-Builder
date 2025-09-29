@@ -17,6 +17,8 @@ export function ElementsPanel() {
       type: type,
       label: `New ${type} field`,
       required: false,
+      // Add default options for a new dropdown
+      ...(type === "dropdown" && { options: ["Option 1", "Option 2"] }),
     };
     addField(newField);
   };
@@ -42,6 +44,18 @@ export function ElementsPanel() {
           className="w-full text-left p-3 bg-white/5 rounded-lg hover:bg-white/10 transition-colors"
         >
           Textarea
+        </button>
+        <button
+          onClick={() => handleAddField("dropdown")}
+          className="w-full text-left p-3 bg-white/5 rounded-lg hover:bg-white/10"
+        >
+          Dropdown
+        </button>
+        <button
+          onClick={() => handleAddField("checkbox")}
+          className="w-full text-left p-3 bg-white/5 rounded-lg hover:bg-white/10"
+        >
+          Checkbox
         </button>
       </div>
     </Panel>

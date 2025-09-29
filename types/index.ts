@@ -1,11 +1,17 @@
 // types/index.ts
+
 export interface FormField {
-  id: string; // A unique ID for each field
+  id: string;
   type: "text" | "email" | "textarea" | "checkbox" | "dropdown" | "file";
   label: string;
   placeholder?: string;
   required: boolean;
-  options?: string[]; // For dropdowns
+  options?: string[];
+}
+export interface Submission {
+  id: string;
+  formId: string;
+  answers: Record<string, string>; // e.g., { fieldId: 'answer' }
 }
 
 export interface FormTheme {
@@ -13,28 +19,35 @@ export interface FormTheme {
     primary: string;
     background: string;
     text: string;
-    panelBg: string;
   };
   fonts: {
     body: string;
   };
 }
 
-// This will define the structure of our store
-// types/index.ts
+// Helper type for what we save to local storage
+type StoredState = Pick<BuilderState, "fields" | "theme">;
 
 export interface BuilderState {
+  // STATE
   fields: FormField[];
   theme: FormTheme;
+  formId: string | null;
   selectedFieldId: string | null;
+  mode: "edit" | "preview";
+  title: string;
+
+  // ACTIONS
   addField: (field: FormField) => void;
   updateField: (id: string, newConfig: Partial<FormField>) => void;
   selectField: (id: string | null) => void;
   reorderFields: (startIndex: number, endIndex: number) => void;
-  mode: "edit" | "preview";
   toggleMode: () => void;
   updateThemeColor: (
-    key: "primary" | "background" | "text" | "panelBg",
+    key: "primary" | "background" | "text",
     value: string
   ) => void;
+  setFormId: (id: string) => void;
+  initState: (initialState: StoredState) => void;
+  updateTitle: (title: string) => void;
 }

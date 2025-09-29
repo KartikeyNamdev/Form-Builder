@@ -12,6 +12,7 @@ export function TextareaInput({
   return (
     <textarea
       placeholder={field.placeholder}
+      name={field.id} // <-- ADD THIS LINE
       className={`w-full bg-white/5 border-white/10 rounded-md p-2 h-24 resize-none ${
         isPreview ? "" : "pointer-events-none"
       }`}

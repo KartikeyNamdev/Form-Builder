@@ -1,12 +1,13 @@
 // components/builder/FieldWrapper.tsx
+"use client";
 import { GripVertical } from "lucide-react";
 import React from "react";
 
-// We now accept the dnd-kit listeners as a prop
+// 1. Remove the 'theme' prop from the interface
 interface FieldWrapperProps {
   label: string;
   children: React.ReactNode;
-  dragHandleListeners?: any; // To hold the dnd-kit listeners
+  dragHandleListeners?: any;
 }
 
 export function FieldWrapper({
@@ -16,13 +17,15 @@ export function FieldWrapper({
 }: FieldWrapperProps) {
   return (
     <div className="flex items-start gap-4">
-      {/* Attach the listeners ONLY to the drag handle */}
       <div className="mt-3 text-gray-500 cursor-grab" {...dragHandleListeners}>
         <GripVertical size={18} />
       </div>
 
       <div className="flex-grow">
-        <label className="block text-sm font-medium text-gray-300 mb-1">
+        <label
+          // 2. Remove the inline style and use the Tailwind class instead
+          className="block text-sm font-medium text-page-text mb-1"
+        >
           {label}
         </label>
         {children}

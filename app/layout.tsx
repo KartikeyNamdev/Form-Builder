@@ -19,7 +19,7 @@ export default function RootLayout({
           <Image
             width={500}
             height={500}
-            src="/bg.jpg"
+            src="/bg3.jpg"
             alt="Serene background texture"
             className="h-full w-full object-cover "
           />
