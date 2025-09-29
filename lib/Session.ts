@@ -24,7 +24,7 @@ export async function getCurrentUser() {
 
     return user;
   } catch (error) {
-    // This will happen if the token is invalid or expired
+    console.log(error);
     return null;
   }
 }

@@ -16,6 +16,7 @@ export async function middleware(request: NextRequest) {
     await jwtVerify(token, JWT_SECRET);
     return NextResponse.next();
   } catch (error) {
+    console.log(error);
     return NextResponse.redirect(new URL("/login", request.url));
   }
 }

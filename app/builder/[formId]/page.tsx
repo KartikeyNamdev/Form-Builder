@@ -22,10 +22,11 @@ async function getForm(formId: string) {
 export default async function BuilderPage({
   params,
 }: {
-  params: { formId: string };
+  params: Promise<{ formId: string }>;
 }) {
   // 2. Access params.formId directly
-  const form = await getForm(params.formId);
+  const { formId } = await params;
+  const form = await getForm(formId);
 
   if (!form) {
     return <div>Form not found or you do not have permission to view it.</div>;
